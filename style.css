@@ -242,22 +242,34 @@ body {
 
 .score-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 18px;
   padding: 16px 22px;
   border-radius: 10px;
   border: 2px solid;
   font-size: 1.4rem;
   background: var(--panel);
+  will-change: transform;
 }
 
-.score-row .team-name { letter-spacing: 0.15em; }
-.score-row .team-score { font-weight: bold; font-size: 1.8rem; }
+.score-row .rank {
+  flex: 0 0 auto;
+  width: 2.1em;
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+.score-row .team-name { flex: 1 1 auto; letter-spacing: 0.15em; }
+.score-row .team-score { flex: 0 0 auto; min-width: 4ch; text-align: right; font-weight: bold; font-size: 1.8rem; }
 
 .score-row.red    { border-color: var(--red);    color: var(--red); }
 .score-row.green  { border-color: var(--green);  color: var(--green); }
 .score-row.yellow { border-color: var(--yellow); color: var(--yellow); }
 .score-row.blue   { border-color: var(--blue);   color: var(--blue); }
+
+.score-row.is-leader {
+  box-shadow: 0 0 22px rgba(255, 214, 10, 0.5), inset 0 0 0 1px rgba(255, 214, 10, 0.3);
+}
 
 .sync-note {
   margin-top: 18px;

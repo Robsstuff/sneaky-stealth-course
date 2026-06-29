@@ -27,7 +27,10 @@ that syncs to a Google Sheet.
   Tapping a team button adds the current room's points to that team, shows a
   tiny flash plus a confetti burst across the screen, then locks the button
   for **1 second**. Each tap is sent to the Google Sheet.
-- **Live scoreboard** — shows the running total for all four teams.
+- **Live scoreboard** — ranks all four teams by score, highest at the top:
+  🥇 1st, 🥈 2nd, 🥉 3rd, 4️⃣ 4th. The 1st-place row gets a gold glow. If the
+  score totals change (a tap, or a poll from the Google Sheet) and the
+  ranking shifts, the rows smoothly slide into their new positions.
 
 ## Run it locally
 

@@ -22,6 +22,7 @@
   // Room N gives N/10 points — except Room 10, which is worth 5.
   const roomPoints = (n) => (n === 10 ? 5 : n / 10);
   const CONFETTI_COLORS = ["#ffd60a", "#ff1f1f", "#21c95e", "#2e7dff", "#ffffff"];
+  const RANK_EMOJI = ["🥇", "🥈", "🥉", "4️⃣"];
 
   function loadScores() {
     try {
@@ -84,6 +85,7 @@
     // Update score
     scores[team] = +(scores[team] + pts).toFixed(1);
     saveScores();
+    renderBoard(); // keep the live scoreboard (if open elsewhere) in sync
 
     // Flash animation
     btn.classList.add("flash");
@@ -117,25 +119,64 @@
   }
 
   // ---------- Scoreboard ----------
+  // Ranks teams by score (highest first) and renders/re-orders rows.
+  // Existing row elements are re-appended in rank order (not rebuilt),
+  // so a short FLIP animation can slide them to their new position
+  // whenever the order changes.
   function renderBoard() {
     const board = $("#board");
-    board.innerHTML = TEAMS.map((t) =>
-      `<div class="score-row ${TEAM_CLASS[t]}">` +
-      `<span class="team-name">${t}</span>` +
-      `<span class="team-score" data-score="${t}">${scores[t].toFixed(1)}</span>` +
-      `</div>`
-    ).join("");
+    const isVisible = $("#scoreboard").classList.contains("active");
+    const ranked = [...TEAMS].sort((a, b) => scores[b] - scores[a]);
+
+    const existing = {};
+    board.querySelectorAll(".score-row").forEach((row) => {
+      existing[row.dataset.team] = row;
+    });
+
+    const beforeTop = {};
+    if (isVisible) {
+      ranked.forEach((t) => {
+        const row = existing[t];
+        if (row) beforeTop[t] = row.getBoundingClientRect().top;
+      });
+    }
+
+    ranked.forEach((t, i) => {
+      let row = existing[t];
+      if (!row) {
+        row = document.createElement("div");
+        row.dataset.team = t;
+        existing[t] = row;
+      }
+      row.className = "score-row " + TEAM_CLASS[t] + (i === 0 ? " is-leader" : "");
+      row.innerHTML =
+        `<span class="rank">${RANK_EMOJI[i]}</span>` +
+        `<span class="team-name">${t}</span>` +
+        `<span class="team-score" data-score="${t}">${scores[t].toFixed(1)}</span>`;
+      board.appendChild(row); // (re)inserts in rank order
+    });
+
+    if (isVisible) {
+      ranked.forEach((t) => {
+        const row = existing[t];
+        const from = beforeTop[t];
+        if (from === undefined) return; // brand-new row, nothing to animate from
+        const delta = from - row.getBoundingClientRect().top;
+        if (!delta) return;
+        row.style.transition = "none";
+        row.style.transform = `translateY(${delta}px)`;
+        row.getBoundingClientRect(); // force reflow before transitioning back
+        requestAnimationFrame(() => {
+          row.style.transition = "transform 0.5s ease";
+          row.style.transform = "";
+        });
+      });
+    }
 
     const note = $("#syncNote");
     note.textContent = CONFIG.GOOGLE_SCRIPT_URL
       ? "Live scores synced from Google Sheet."
       : "Offline mode — scores stored in this browser only.";
-  }
-
-  function updateBoardScores() {
-    document.querySelectorAll("[data-score]").forEach((el) => {
-      el.textContent = scores[el.dataset.score].toFixed(1);
-    });
   }
 
   // ---------- Google Sheet sync ----------
@@ -171,7 +212,7 @@
           }
         });
         saveScores();
-        updateBoardScores();
+        renderBoard();
       }
       cleanup();
     };
