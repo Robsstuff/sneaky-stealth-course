@@ -1,0 +1,305 @@
+/* ===================== SNEAKY STEALTH COURSE =====================
+   Stealth theme: black background, yellow text.
+   ================================================================ */
+
+:root {
+  --black:  #000000;
+  --panel:  #0b0b0b;
+  --yellow: #ffd60a;
+  --yellow-dim: #b39400;
+  --red:    #ff1f1f;
+  --green:  #21c95e;
+  --blue:   #2e7dff;
+  --grey:   #1a1a1a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--black);
+  color: var(--yellow);
+  font-family: "Courier New", Courier, monospace;
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 96px; /* room for fixed team bar */
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  text-align: center;
+  padding: 18px 12px 8px;
+  border-bottom: 1px solid var(--yellow-dim);
+}
+
+.brand {
+  margin: 0 0 10px;
+  font-size: clamp(1.4rem, 5vw, 2.8rem);
+  letter-spacing: 0.25em;
+  text-shadow: 0 0 12px rgba(255, 214, 10, 0.5);
+}
+
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--yellow-dim);
+}
+
+.countdown-clock {
+  color: var(--red);
+  font-size: clamp(1.8rem, 7vw, 3.4rem);
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 14px rgba(255, 31, 31, 0.7);
+}
+
+/* ---------- Views ---------- */
+.view {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.view.active { display: flex; }
+
+.section-title {
+  letter-spacing: 0.25em;
+  margin: 8px 0 24px;
+}
+
+/* ---------- Hall: room grid ---------- */
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.room-btn {
+  background: var(--panel);
+  color: var(--yellow);
+  border: 2px solid var(--yellow);
+  border-radius: 10px;
+  padding: 22px 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.08s, background 0.15s, box-shadow 0.15s;
+}
+
+.room-btn:hover {
+  background: var(--yellow);
+  color: var(--black);
+  box-shadow: 0 0 18px rgba(255, 214, 10, 0.6);
+}
+
+.room-btn .rp {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--yellow-dim);
+}
+.room-btn:hover .rp { color: var(--black); }
+
+.scoreboard-btn,
+.back-btn {
+  margin-top: 28px;
+  background: transparent;
+  color: var(--yellow);
+  border: 2px solid var(--yellow);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+}
+
+.back-btn {
+  align-self: flex-start;
+  margin: 0 0 16px;
+}
+
+.scoreboard-btn:hover,
+.back-btn:hover { background: var(--yellow); color: var(--black); }
+
+/* ---------- Room stage ---------- */
+.room-stage {
+  text-align: center;
+  margin: auto 0;
+}
+
+.sneaky {
+  font-size: clamp(2.4rem, 9vw, 5rem);
+  margin: 0;
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 18px rgba(255, 214, 10, 0.6);
+}
+
+.room-name {
+  font-size: 1.3rem;
+  color: var(--yellow-dim);
+  letter-spacing: 0.2em;
+}
+
+.room-points {
+  font-size: 1.8rem;
+  margin-top: 8px;
+}
+
+#roomPoints { color: var(--red); font-weight: bold; }
+
+/* ---------- Scoreboard ---------- */
+.board {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  border-radius: 10px;
+  border: 2px solid;
+  font-size: 1.4rem;
+  background: var(--panel);
+}
+
+.score-row .team-name { letter-spacing: 0.15em; }
+.score-row .team-score { font-weight: bold; font-size: 1.8rem; }
+
+.score-row.red    { border-color: var(--red);    color: var(--red); }
+.score-row.green  { border-color: var(--green);  color: var(--green); }
+.score-row.yellow { border-color: var(--yellow); color: var(--yellow); }
+.score-row.blue   { border-color: var(--blue);   color: var(--blue); }
+
+.sync-note {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  color: var(--yellow-dim);
+  text-align: center;
+}
+
+/* ---------- Team bar (fixed bottom) ---------- */
+.team-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 12px;
+  background: var(--grey);
+  border-top: 2px solid var(--yellow-dim);
+  z-index: 50;
+}
+
+.team-btn {
+  padding: 20px 6px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.08s, filter 0.12s;
+  position: relative;
+  overflow: hidden;
+}
+
+.team-red    { background: var(--red); }
+.team-green  { background: var(--green); }
+.team-yellow { background: var(--yellow); color: #000; }
+.team-blue   { background: var(--blue); }
+
+.team-btn:active { transform: scale(0.97); }
+
+/* Locked-out state */
+.team-btn.locked {
+  filter: grayscale(0.8) brightness(0.5);
+  cursor: not-allowed;
+}
+
+/* Flash animation on successful tap */
+.team-btn.flash::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  animation: flash 0.35s ease-out;
+}
+
+@keyframes flash {
+  0%   { opacity: 0.9; }
+  100% { opacity: 0; }
+}
+
+/* Hide team bar unless we're in a room */
+.team-bar { display: none; }
+body.in-room .team-bar { display: grid; }
+
+/* ---------- Game Over overlay ---------- */
+.game-over {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.game-over[hidden] { display: none; }
+
+.game-over-inner {
+  text-align: center;
+  border: 3px solid var(--red);
+  border-radius: 14px;
+  padding: 50px 60px;
+  box-shadow: 0 0 40px rgba(255, 31, 31, 0.6);
+}
+
+.game-over-inner h2 {
+  color: var(--red);
+  font-size: clamp(2.6rem, 10vw, 5rem);
+  margin: 0 0 12px;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px rgba(255, 31, 31, 0.8);
+}
+
+.game-over-inner p {
+  color: var(--yellow);
+  font-size: 1.6rem;
+  letter-spacing: 0.2em;
+  margin: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 620px) {
+  .room-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-btn { font-size: 0.85rem; padding: 18px 4px; }
+}

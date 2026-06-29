@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sneaky Stealth Course</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===================== HEADER ===================== -->
+  <header class="topbar">
+    <h1 class="brand">SNEAKY&nbsp;STEALTH&nbsp;COURSE</h1>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <span class="countdown-label">MISSION ENDS IN</span>
+      <span class="countdown-clock" id="clock">--:--:--:--</span>
+    </div>
+  </header>
+
+  <!-- ===================== HALL VIEW ===================== -->
+  <main id="hall" class="view active">
+    <h2 class="section-title">SELECT A ROOM</h2>
+    <div class="room-grid" id="roomGrid"><!-- room buttons injected by JS --></div>
+    <button class="scoreboard-btn" data-target="scoreboard">LIVE SCOREBOARD</button>
+  </main>
+
+  <!-- ===================== ROOM VIEW ===================== -->
+  <main id="room" class="view">
+    <button class="back-btn" data-target="hall">&larr; BACK TO HALL</button>
+    <div class="room-stage">
+      <h2 class="sneaky">Sneaky Stealth</h2>
+      <p class="room-name" id="roomName">Room 1</p>
+      <p class="room-points">Points: <span id="roomPoints">0.1</span></p>
+    </div>
+  </main>
+
+  <!-- ===================== SCOREBOARD VIEW ===================== -->
+  <main id="scoreboard" class="view">
+    <button class="back-btn" data-target="hall">&larr; BACK TO HALL</button>
+    <h2 class="section-title">LIVE SCOREBOARD</h2>
+    <div class="board" id="board"><!-- score rows injected by JS --></div>
+    <p class="sync-note" id="syncNote"></p>
+  </main>
+
+  <!-- ===================== GAME OVER OVERLAY ===================== -->
+  <div id="gameOver" class="game-over" hidden>
+    <div class="game-over-inner">
+      <h2>GAME OVER</h2>
+      <p>Return to Hall</p>
+    </div>
+  </div>
+
+  <!-- ===================== TEAM SCORING BUTTONS ===================== -->
+  <footer class="team-bar" id="teamBar">
+    <button class="team-btn team-red"    data-team="Bradman">BRADMAN</button>
+    <button class="team-btn team-green"  data-team="Jackson">JACKSON</button>
+    <button class="team-btn team-yellow" data-team="Elliot">ELLIOT</button>
+    <button class="team-btn team-blue"   data-team="Fraser">FRASER</button>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
