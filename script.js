@@ -9,7 +9,7 @@
   const TEAMS = ["Bradman", "Jackson", "Elliot", "Fraser"];
   const TEAM_CLASS = { Bradman: "red", Jackson: "green", Elliot: "yellow", Fraser: "blue" };
   const ROOM_COUNT = 10;
-  const LOCKOUT_MS = 2000;
+  const LOCKOUT_MS = 1000;
   const STORE_KEY = "sneakyStealthScores";
 
   // ---------- State ----------
@@ -19,7 +19,8 @@
 
   // ---------- Helpers ----------
   const $ = (sel) => document.querySelector(sel);
-  const roomPoints = (n) => n / 10;  // Room N gives N/10 points
+  // Room N gives N/10 points — except Room 10, which is worth 2.
+  const roomPoints = (n) => (n === 10 ? 2 : n / 10);
 
   function loadScores() {
     try {
