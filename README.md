@@ -9,8 +9,10 @@ that syncs to a Google Sheet.
 ## How it works
 
 - **10 rooms** — each room awards points equal to its number ÷ 10
-  (Room 1 = 0.1 pts … Room 9 = 0.9 pts), except **Room 10 is worth 2 pts**.
+  (Room 1 = 0.1 pts … Room 9 = 0.9 pts), except **Room 10 is worth 5 pts**.
   Inside a room you see the words **Sneaky Stealth** and the room's point value.
+  Room 10 also switches to a special gold-themed look while you're inside it —
+  every other room stays the plain black/yellow stealth theme.
 - **Red countdown clock** — counts down to **Tuesday 30 June 2026, 2:40 PM AEST**.
   When it hits zero a **GAME OVER — Return to Hall** message covers the screen
   and scoring is disabled.
@@ -23,8 +25,8 @@ that syncs to a Google Sheet.
   | Blue   | 🔵     | Fraser  |
 
   Tapping a team button adds the current room's points to that team, shows a
-  tiny flash, then locks the button for **1 second**. Each tap is sent to the
-  Google Sheet.
+  tiny flash plus a confetti burst across the screen, then locks the button
+  for **1 second**. Each tap is sent to the Google Sheet.
 - **Live scoreboard** — shows the running total for all four teams.
 
 ## Run it locally
@@ -78,5 +80,5 @@ sheet every few seconds so every device shows the same live totals.
 ## Customising
 
 - **Countdown target** — `config.js → TARGET_ISO`.
-- **Points per room** — `script.js → roomPoints()` (`n / 10`, Room 10 = 2).
+- **Points per room** — `script.js → roomPoints()` (`n / 10`, Room 10 = 5).
 - **Lockout time** — `script.js → LOCKOUT_MS` (currently `1000`).

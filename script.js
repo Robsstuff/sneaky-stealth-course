@@ -19,8 +19,9 @@
 
   // ---------- Helpers ----------
   const $ = (sel) => document.querySelector(sel);
-  // Room N gives N/10 points — except Room 10, which is worth 2.
-  const roomPoints = (n) => (n === 10 ? 2 : n / 10);
+  // Room N gives N/10 points — except Room 10, which is worth 5.
+  const roomPoints = (n) => (n === 10 ? 5 : n / 10);
+  const CONFETTI_COLORS = ["#ffd60a", "#ff1f1f", "#21c95e", "#2e7dff", "#ffffff"];
 
   function loadScores() {
     try {
@@ -62,6 +63,7 @@
     currentRoom = n;
     $("#roomName").textContent = "Room " + n;
     $("#roomPoints").textContent = roomPoints(n).toFixed(1);
+    $("#room").classList.toggle("room-ten", n === 10);
     showView("room");
   }
 
@@ -87,12 +89,31 @@
     btn.classList.add("flash");
     setTimeout(() => btn.classList.remove("flash"), 350);
 
-    // Lock out for 2 seconds
+    // Confetti burst
+    spawnConfetti();
+
+    // Lock out
     btn.classList.add("locked");
     setTimeout(() => btn.classList.remove("locked"), LOCKOUT_MS);
 
     // Send to Google Sheet
     sendToSheet(team, pts, currentRoom);
+  }
+
+  function spawnConfetti() {
+    const burst = document.createElement("div");
+    burst.className = "confetti-burst";
+    for (let i = 0; i < 32; i++) {
+      const piece = document.createElement("span");
+      piece.className = "confetti-piece" + (Math.random() < 0.5 ? " round" : "");
+      piece.style.left = Math.random() * 100 + "%";
+      piece.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      piece.style.animationDelay = (Math.random() * 0.15).toFixed(2) + "s";
+      piece.style.animationDuration = (0.9 + Math.random() * 0.6).toFixed(2) + "s";
+      burst.appendChild(piece);
+    }
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 1700);
   }
 
   // ---------- Scoreboard ----------
