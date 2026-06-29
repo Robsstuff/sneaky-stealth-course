@@ -27,8 +27,17 @@ function getSheet() {
   return sheet;
 }
 
-/* ---- Record a tap ---- */
+/* ---- Record a tap ----
+   A script lock serialises writes so simultaneous presses queue up
+   instead of colliding (which could silently drop a point). At ~2
+   presses/second each write completes in well under its wait window. */
 function doPost(e) {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000); // queue for up to 20s rather than fail
+  } catch (err) {
+    return jsonOut({ ok: false, error: "busy" });
+  }
   try {
     var data = JSON.parse(e.postData.contents);
     if (TEAMS.indexOf(data.team) === -1) {
@@ -40,9 +49,12 @@ function doPost(e) {
       data.room,
       Number(data.points) || 0,
     ]);
+    SpreadsheetApp.flush(); // commit before releasing the lock
     return jsonOut({ ok: true });
   } catch (err) {
     return jsonOut({ ok: false, error: String(err) });
+  } finally {
+    lock.releaseLock();
   }
 }
 
